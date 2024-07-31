@@ -11,9 +11,9 @@ class LoginPage extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            context.go('/first-login');
+            context.go('/login');
           },
-          child: const Text('Go to First Login'),
+          child: const Text('Login'),
         ),
       ),
     );

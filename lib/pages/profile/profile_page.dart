@@ -1,223 +1,134 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
-class MyProfilePage extends StatefulWidget {
-  const MyProfilePage({super.key, required this.title});
-
-  final String title;
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
 
   @override
-  State<MyProfilePage> createState() => _MyProfilePageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _MyProfilePageState extends State<MyProfilePage> {
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        color: const Color.fromRGBO(255, 255, 255, 1),
-        child: Stack(
-          children: <Widget>[
-            _buildTopBackground(),
-            _buildMainContainer(),
-            _buildUserInfo(),
-            _buildBottomNav(),
-            _buildTitle(),
-            _buildDivider(),
-            _buildSectionTitle(top: 234, left: 35, text: '상담'),
-            _buildSectionTitle(top: 414, left: 26, text: '계정 설정'),
-            _buildSection(
-              top: 291,
-              left: 35,
-              text: '챗봇 상담 히스토리 요약 보기',
-              iconPath: 'assets/images/vector.svg',
-            ),
-            _buildSection(
-              top: 471,
-              left: 28,
-              text: '프로필 변경',
-              iconPath: 'assets/images/vector.svg',
-            ),
-            _buildSection(
-              top: 332,
-              left: 36,
-              text: '상담 접수 내역',
-              iconPath: 'assets/images/vector.svg',
-            ),
-            _buildLine(top: 385, left: 17, path: 'assets/images/line3.svg'),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Positioned _buildTopBackground() {
-    return Positioned(
-      top: 0,
-      left: 0,
-      child: Container(
-        width: 360,
-        height: 294,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(12),
-            bottomRight: Radius.circular(12),
-          ),
-          color: Color.fromRGBO(75, 123, 245, 1),
-        ),
-      ),
-    );
-  }
-
-  Positioned _buildMainContainer() {
-    return Positioned(
-      top: 128,
-      left: 16,
-      child: Container(
-        width: 330,
-        height: 741,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-          boxShadow: [
-            BoxShadow(
-              color: Color.fromRGBO(75, 75, 75, 0.15),
-              offset: Offset(0, 2),
-              blurRadius: 16,
-            )
-          ],
-          color: Color.fromRGBO(255, 255, 255, 1),
-        ),
-      ),
-    );
-  }
-
-  Positioned _buildUserInfo() {
-    return const Positioned(
-      top: 152,
-      left: 41,
-      child: Row(
-        children: <Widget>[
-          CircleAvatar(
-            radius: 20,
-            backgroundImage: AssetImage('assets/images/Image4.png'),
-          ),
-          SizedBox(width: 12),
-          Text(
-            'User Yennefer Doe',
-            style: TextStyle(
-              color: Colors.black,
-              fontFamily: 'Rubik',
-              fontSize: 18,
-              fontWeight: FontWeight.normal,
+        body: Stack(
+      children: [
+        Container(
+          width: double.infinity,
+          height: 294,
+          decoration: const BoxDecoration(
+            color: Color(0xFF4B7BF5),
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20),
             ),
           ),
-        ],
-      ),
-    );
-  }
-
-  Positioned _buildBottomNav() {
-    return Positioned(
-      top: 752,
-      left: 0,
-      child: Container(
-        color: const Color.fromRGBO(253, 253, 253, 1),
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            SvgPicture.asset('assets/images/vector.svg',
-                semanticsLabel: 'vector'),
-            const SizedBox(width: 20),
-            SvgPicture.asset('assets/images/vector.svg',
-                semanticsLabel: 'vector'),
-            const SizedBox(width: 20),
-            SvgPicture.asset('assets/images/vector.svg',
-                semanticsLabel: 'vector'),
-          ],
+          child: const Padding(
+            padding: EdgeInsets.only(
+              top: 60,
+              left: 24,
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.person_4_rounded,
+                  size: 32,
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  "MyPage",
+                  style: TextStyle(fontSize: 28, color: Colors.white),
+                ),
+              ],
+            ),
+          ),
         ),
-      ),
-    );
+        Container(
+          margin: const EdgeInsets.only(left: 24, right: 24, top: 128),
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(16),
+                topRight: Radius.circular(16),
+              ),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF4B4B4B).withOpacity(0.15),
+                  spreadRadius: 0,
+                  blurRadius: 16,
+                  offset: const Offset(0, 2),
+                ),
+              ]),
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Image.asset('assets/images/chatbot.png',
+                        width: 24, height: 36),
+                    const SizedBox(width: 12),
+                    const Text("User Name",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                const Divider(),
+                const SizedBox(height: 18),
+                const Text("상담", style: TextStyle(fontSize: 18)),
+                const SizedBox(height: 32),
+                RowProfile(
+                  text: "챗봇 상담 히스토리 요약 보기",
+                  onTap: () {
+                    context.push('/chatbot_history');
+                  },
+                ),
+                const SizedBox(height: 24),
+                RowProfile(
+                  text: "상담 접수 내역",
+                  onTap: () {
+                    context.push('/chatbot_history');
+                  },
+                ),
+              ],
+            ),
+          ),
+        )
+      ],
+    ));
   }
+}
 
-  Positioned _buildTitle() {
-    return const Positioned(
-      top: 60,
-      left: 69,
-      child: Text(
-        'MyPage',
-        style: TextStyle(
-          color: Colors.white,
-          fontFamily: 'Rubik',
-          fontSize: 28,
-          fontWeight: FontWeight.normal,
-        ),
-      ),
-    );
-  }
+class RowProfile extends StatelessWidget {
+  final String text;
+  final void Function() onTap;
 
-  Positioned _buildDivider() {
-    return const Positioned(
-      top: 216,
-      left: 16,
-      child: Divider(
-        color: Color.fromRGBO(201, 201, 201, 1),
-        thickness: 0.5,
-      ),
-    );
-  }
+  const RowProfile({
+    super.key,
+    required this.text,
+    required this.onTap,
+  });
 
-  Positioned _buildSectionTitle(
-      {required double top, required double left, required String text}) {
-    return Positioned(
-      top: top,
-      left: left,
-      child: Text(
-        text,
-        style: const TextStyle(
-          color: Color.fromRGBO(173, 173, 173, 1),
-          fontFamily: 'Nunito',
-          fontSize: 18,
-          fontWeight: FontWeight.normal,
-        ),
-      ),
-    );
-  }
-
-  Positioned _buildSection(
-      {required double top,
-      required double left,
-      required String text,
-      required String iconPath}) {
-    return Positioned(
-      top: top,
-      left: left,
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            text,
-            style: const TextStyle(
-              color: Colors.black,
-              fontFamily: 'Nunito',
-              fontSize: 16,
-              fontWeight: FontWeight.normal,
-            ),
-          ),
-          SvgPicture.asset(iconPath, semanticsLabel: 'vector'),
+        children: [
+          Text(text, style: const TextStyle(fontSize: 18)),
+          const Icon(Icons.chevron_right),
         ],
       ),
-    );
-  }
-
-  Positioned _buildLine(
-      {required double top, required double left, required String path}) {
-    return Positioned(
-      top: top,
-      left: left,
-      child: SvgPicture.asset(path, semanticsLabel: 'line'),
     );
   }
 }

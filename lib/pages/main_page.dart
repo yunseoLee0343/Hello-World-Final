@@ -17,9 +17,7 @@ class MainPageState extends State<MainPage> {
   static final List<Widget> _widgetOptions = <Widget>[
     const ChatPage(),
     const MapPage(),
-    const MyProfilePage(
-      title: "",
-    ),
+    const ProfilePage(),
   ];
 
   void _onItemTapped(int index) {

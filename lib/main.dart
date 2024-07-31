@@ -15,6 +15,10 @@ class MyApp extends StatelessWidget {
       routerDelegate: appRouter.routerDelegate,
       routeInformationParser: appRouter.routeInformationParser,
       routeInformationProvider: appRouter.routeInformationProvider,
+      theme: ThemeData(
+        fontFamily: 'Nunito',
+      ),
+      themeMode: ThemeMode.system,
     );
   }
 }
