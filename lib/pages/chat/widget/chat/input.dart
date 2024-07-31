@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class MessageInputField extends StatefulWidget {
   final TextEditingController controller;
@@ -102,7 +103,9 @@ class _MessageInputFieldState extends State<MessageInputField> {
               ),
               IconButton(
                 icon: const Icon(Icons.mic, size: 24),
-                onPressed: () {},
+                onPressed: () {
+                  context.push('/tts');
+                },
                 color: const Color.fromRGBO(84, 84, 84, 1),
               ),
             ],
