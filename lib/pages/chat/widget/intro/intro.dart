@@ -7,7 +7,8 @@ class IntroBox extends StatelessWidget {
   final String sampleText2;
   final Function(String) onTap; // Add onTap callback
 
-  IntroBox({
+  const IntroBox({
+    super.key,
     required this.icon,
     required this.title,
     required this.sampleText1,
@@ -18,37 +19,35 @@ class IntroBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(24),
       child: Column(
         children: <Widget>[
-          Icon(
-            icon.icon,
-            size: 28,
-          ),
-          SizedBox(height: 1),
+          Icon(icon.icon, size: 28),
+          const SizedBox(height: 1),
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Column(
             children: <Widget>[
               GestureDetector(
                 onTap: () => onTap(sampleText1), // Add onTap handler
                 child: Container(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 16,
+                    horizontal: 24,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                   child: Text(
                     sampleText1,
-                    style: TextStyle(
-                      fontSize: 12,
-                    ),
+                    style: const TextStyle(fontSize: 12),
                   ),
                 ),
               ),
@@ -56,16 +55,17 @@ class IntroBox extends StatelessWidget {
               GestureDetector(
                 onTap: () => onTap(sampleText2), // Add onTap handler
                 child: Container(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 16,
+                    horizontal: 24,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                   child: Text(
                     sampleText2,
-                    style: TextStyle(
-                      fontSize: 12,
-                    ),
+                    style: const TextStyle(fontSize: 12),
                   ),
                 ),
               ),

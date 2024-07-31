@@ -4,6 +4,8 @@ import 'package:hello_world_final/pages/map/map_page.dart';
 import 'package:hello_world_final/pages/profile/profile_page.dart';
 
 class MainPage extends StatefulWidget {
+  // final String question;
+
   const MainPage({super.key});
 
   @override
@@ -12,10 +14,12 @@ class MainPage extends StatefulWidget {
 
 class MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
-    ChatPage(),
-    MapPage(),
-    ProfilePage(),
+  static final List<Widget> _widgetOptions = <Widget>[
+    const ChatPage(),
+    const MapPage(),
+    const MyProfilePage(
+      title: "",
+    ),
   ];
 
   void _onItemTapped(int index) {
