@@ -12,7 +12,7 @@ final GoRouter appRouter = GoRouter(
     ),
     GoRoute(
       path: '/first-login',
-      builder: (context, state) => const FirstLoginPage(),
+      builder: (context, state) => const ChatIntroPage(),
     ),
     GoRoute(
       path: '/main',
