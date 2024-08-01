@@ -7,6 +7,7 @@ import 'package:hello_world_final/pages/chat/tts_page.dart';
 import 'package:hello_world_final/pages/login/login_page.dart';
 import 'package:hello_world_final/pages/main_page.dart';
 import 'package:hello_world_final/pages/map/map_page.dart';
+import 'package:hello_world_final/pages/map/reservation_page.dart';
 import 'package:hello_world_final/pages/profile/chatbot_history.dart';
 import 'package:hello_world_final/pages/profile/profile_page.dart';
 
@@ -59,6 +60,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/profile',
       builder: (context, state) => const ProfilePage(),
+    ),
+    GoRoute(
+      path: '/reservation',
+      builder: (context, state) => const ReservationPage(),
     ),
   ],
 );

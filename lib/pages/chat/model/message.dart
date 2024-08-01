@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Messages extends ChangeNotifier {
   // Private static instance of the singleton
@@ -67,11 +68,12 @@ class Messages extends ChangeNotifier {
   Future<String?> sendMessageToServer(
       String message, String userId, String roomId) async {
     final url = Uri.parse('http://localhost:8082/chat/ask?roomId=$roomId');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
     // Headers and body for the request
     Map<String, String> headers = {
       'accept': 'text/event-stream',
-      'user_id': userId,
+      'user_id': prefs.getString('userId') ?? '',
       'Content-Type': 'application/json',
     };
     String body = jsonEncode({'message': message});
@@ -84,11 +86,10 @@ class Messages extends ChangeNotifier {
       final streamedResponse = await request.send();
 
       if (streamedResponse.statusCode == 200) {
-        print('Message sent successfully');
+        log('Message sent successfully');
         return await _processResponseStream(streamedResponse.stream);
       } else {
-        print(
-            'Failed to send message. Status code: ${streamedResponse.statusCode}');
+        log('Failed to send message. Status code: ${streamedResponse.statusCode}');
         return null;
       }
     } catch (e) {
