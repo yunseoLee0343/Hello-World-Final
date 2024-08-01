@@ -18,9 +18,9 @@ final List<Widget> widgetOptions = <Widget>[
 ];
 
 final List<String> widgetNames = [
-  'Chat',
-  'Map',
-  'Profile',
+  '/chat',
+  '/map',
+  '/profile',
 ];
 
 final GoRouter appRouter = GoRouter(
@@ -51,6 +51,14 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/tts',
       builder: (context, state) => const TTSPage(),
+    ),
+    GoRoute(
+      path: '/map',
+      builder: (context, state) => const MapPage(),
+    ),
+    GoRoute(
+      path: '/profile',
+      builder: (context, state) => const ProfilePage(),
     ),
   ],
 );

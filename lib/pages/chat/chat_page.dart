@@ -1,12 +1,16 @@
 // 별도로 정의한 ChatPage
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hello_world_final/common/appbar/appbar.dart';
 import 'package:hello_world_final/pages/chat/model/message.dart';
 import 'package:hello_world_final/pages/chat/widget/chat/input.dart';
 import 'package:hello_world_final/pages/chat/widget/chat/list.dart';
+import 'package:hello_world_final/pages/chat/widget/chat_drawer.dart';
 import 'package:hello_world_final/router/app_router.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -20,9 +24,14 @@ class _ChatPageState extends State<ChatPage> {
   final FocusNode _focusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
   bool _isLoading = false;
+  String? userId = "";
 
   void _sendMessage([String? initialMessage]) async {
     final message = initialMessage ?? _messageController.text;
+    log("[chat_page.dart] message: $message");
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    userId = prefs.getString('userId');
 
     if (message.isNotEmpty) {
       setState(() {
@@ -31,7 +40,7 @@ class _ChatPageState extends State<ChatPage> {
       });
 
       await Provider.of<Messages>(context, listen: false)
-          .addMessage(message, 'user1', 'room1');
+          .addMessage(message, 'user1' ?? "", 'room1');
 
       setState(() {
         _isLoading = false;
@@ -87,6 +96,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ),
       ),
+      drawer: const ChatDrawer(),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

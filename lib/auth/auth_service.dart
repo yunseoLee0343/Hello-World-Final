@@ -14,6 +14,16 @@ class AuthService {
     return prefs.getBool('isLoggedIn') ?? false;
   }
 
+  static Future<void> setUserId(String userId) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userId', userId);
+  }
+
+  static Future<String?> getUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('userId');
+  }
+
   static Future<bool> authenticateUser(
       String email, String name, String authNum) async {
     // Replace with your actual authentication request
@@ -33,6 +43,9 @@ class AuthService {
       final responseBody = jsonDecode(response.body);
       if (responseBody['isSuccess']) {
         await setLoggedIn(true);
+        if (responseBody['userId'] != null) {
+          await setUserId(responseBody['userId']);
+        }
         return true;
       }
     }

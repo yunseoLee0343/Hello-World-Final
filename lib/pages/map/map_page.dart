@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hello_world_final/router/app_router.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({
@@ -204,7 +206,29 @@ class _MapPageState extends State<MapPage> {
             )
           ],
         ),
-        // bottomNavigationBar: MyBottomBar(),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.chat),
+              label: 'Chat',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.map),
+              label: 'Map',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            ),
+          ],
+          currentIndex: selectedIndex,
+          onTap: (int index) {
+            setState(() {
+              selectedIndex = index;
+            });
+            context.go(widgetNames[index].toLowerCase());
+          },
+        ),
       ),
     );
   }

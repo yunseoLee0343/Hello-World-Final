@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hello_world_final/common/appbar/appbar.dart';
-import 'package:hello_world_final/common/layout/layout.dart';
 import 'package:hello_world_final/pages/chat/model/message.dart';
 import 'package:hello_world_final/pages/chat/widget/chat/input.dart';
+import 'package:hello_world_final/pages/chat/widget/chat_drawer.dart';
 import 'package:hello_world_final/pages/chat/widget/intro/intro.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,7 +24,7 @@ class ChatIntroPageState extends State<ChatIntroPage> {
   final ScrollController _scrollController = ScrollController();
   bool _isLoading = false;
 
-  get messagesByRoomAndUser => null;
+  final messages = Messages();
 
   void _navigateToChat(String question) {
     _setFirstLaunchFlag(); // Set the flag
@@ -49,10 +49,12 @@ class ChatIntroPageState extends State<ChatIntroPage> {
         _focusNode.unfocus();
       });
 
+      // log("1. messages: ${messages.messagesByRoomAndUser}");
+
       await Provider.of<Messages>(context, listen: false)
           .addMessage(message, 'user1', 'room1');
 
-      log("messages: $messagesByRoomAndUser");
+      // log("2. messages: ${messages.messagesByRoomAndUser}");
 
       setState(() {
         _isLoading = false;
@@ -66,10 +68,17 @@ class ChatIntroPageState extends State<ChatIntroPage> {
     }
   }
 
+  void _unfocus() {
+    FocusScope.of(context).unfocus();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Layout(
-      customAppBar: const MyAppBar(),
+    return Scaffold(
+      appBar: const MyAppBar(),
+      drawer: ChatDrawer(
+        onDrawerOpened: _unfocus, // Pass the unfocus method
+      ),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
