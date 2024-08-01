@@ -24,6 +24,13 @@ class Messages extends ChangeNotifier {
     // Add other predefined messages as needed
   };
 
+  void createRoom(String userId, String roomId) {
+    final key = _getRoomUserKey(userId, roomId);
+    messagesByRoomAndUser.putIfAbsent(key, () => []);
+    log("new room $roomId created for user $userId");
+    notifyListeners();
+  }
+
   List<Map<String, dynamic>> getMessages(String userId, String roomId) {
     final key = _getRoomUserKey(userId, roomId);
     return messagesByRoomAndUser[key] ?? [];

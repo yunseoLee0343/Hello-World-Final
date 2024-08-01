@@ -76,9 +76,9 @@ class ChatIntroPageState extends State<ChatIntroPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(),
-      drawer: ChatDrawer(
-        onDrawerOpened: _unfocus, // Pass the unfocus method
-      ),
+      drawer: const ChatDrawer(
+          // onDrawerOpened: _unfocus, // Pass the unfocus method
+          ),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
