@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Messages extends ChangeNotifier {
-  final Map<String, List<Map<String, dynamic>>> _messagesByRoomAndUser = {
+  final Map<String, List<Map<String, dynamic>>> messagesByRoomAndUser = {
     'user1-room1': [
       {'message': 'Hello, how are you?', 'isBlue': false},
       {'message': 'I am doing well, thank you!', 'isBlue': true},
@@ -46,15 +46,15 @@ class Messages extends ChangeNotifier {
 
   List<Map<String, dynamic>> getMessages(String userId, String roomId) {
     final key = _getRoomUserKey(userId, roomId);
-    return _messagesByRoomAndUser[key] ?? [];
+    return messagesByRoomAndUser[key] ?? [];
   }
 
   Future<void> addMessage(String message, String userId, String roomId) async {
     final key = _getRoomUserKey(userId, roomId);
 
     // 사용자 메시지를 리스트에 추가하고 변경 사항 알리기
-    _messagesByRoomAndUser.putIfAbsent(key, () => []);
-    _messagesByRoomAndUser[key]!.add({'message': message, 'isBlue': true});
+    messagesByRoomAndUser.putIfAbsent(key, () => []);
+    messagesByRoomAndUser[key]!.add({'message': message, 'isBlue': true});
     notifyListeners();
 
     try {
@@ -63,7 +63,7 @@ class Messages extends ChangeNotifier {
 
       if (serverResponse != null) {
         // 서버 응답을 리스트에 추가하고 변경 사항 알리기
-        _messagesByRoomAndUser[key]!
+        messagesByRoomAndUser[key]!
             .add({'message': serverResponse, 'isBlue': false});
         notifyListeners();
       } else {

@@ -1,12 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:hello_world_final/auth/auth_service.dart';
+import 'package:hello_world_final/pages/chat/model/message.dart';
 import 'package:hello_world_final/router/app_router.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const MyApp());
+bool isAuthenticated = false;
+bool isFirstLaunch = true;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  isAuthenticated = await AuthService.isLoggedIn();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setBool('isFirstLaunch', true);
+  isFirstLaunch = prefs.getBool('isFirstLaunch') ?? true;
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => Messages()),
+      ],
+      child: MyApp(
+        isAuthenticated: true,
+        // isAuthenticated: isAuthenticated,
+        isFirstLaunch: isFirstLaunch,
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isAuthenticated;
+  final bool isFirstLaunch;
+
+  const MyApp(
+      {super.key, required this.isAuthenticated, required this.isFirstLaunch});
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hello_world_final/pages/chat/chat_page.dart';
-import 'package:hello_world_final/pages/map/map_page.dart';
-import 'package:hello_world_final/pages/profile/profile_page.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hello_world_final/router/app_router.dart';
 
 class MainPage extends StatefulWidget {
   // final String question;
@@ -13,23 +12,12 @@ class MainPage extends StatefulWidget {
 }
 
 class MainPageState extends State<MainPage> {
-  int _selectedIndex = 0;
-  static final List<Widget> _widgetOptions = <Widget>[
-    const ChatPage(),
-    const MapPage(),
-    const ProfilePage(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  get widgetOptions => null;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _widgetOptions[_selectedIndex],
+      body: widgetOptions[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -45,8 +33,13 @@ class MainPageState extends State<MainPage> {
             label: 'Profile',
           ),
         ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+        currentIndex: selectedIndex,
+        onTap: (int index) {
+          setState(() {
+            selectedIndex = index;
+          });
+          context.go(widgetNames[index].toLowerCase());
+        },
       ),
     );
   }
