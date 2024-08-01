@@ -36,9 +36,8 @@ class AuthService {
     );
 
     if (response.statusCode == 200) {
-      final responseBody = jsonDecode(response.body);
       // Parse the JSON string
-      final parsedJson = jsonDecode(responseBody);
+      final parsedJson = jsonDecode(response.body);
       final isSuccess = parsedJson['isSuccess'];
       String? atkToken;
 

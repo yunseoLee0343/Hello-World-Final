@@ -1,6 +1,4 @@
 // 별도로 정의한 ChatPage
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hello_world_final/common/appbar/appbar.dart';
@@ -21,14 +19,14 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final TextEditingController _messageController = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
+  final FocusNode _focusNode = FocusNode();
   bool _isLoading = false;
+
   String? userId = "";
 
   void _sendMessage([String? initialMessage]) async {
     final message = initialMessage ?? _messageController.text;
-    log("[chat_page.dart] message: $message");
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     userId = prefs.getString('userId');
@@ -77,8 +75,8 @@ class _ChatPageState extends State<ChatPage> {
               ListView(
                 controller: _scrollController,
                 padding: const EdgeInsets.only(bottom: 80),
-                children: const [
-                  ChatList(userId: 'user1', roomId: 'room1'),
+                children: [
+                  ChatList(userId: userId ?? "", roomId: 'room1'),
                 ],
               ),
               Positioned(

@@ -41,6 +41,7 @@ class ChatIntroPageState extends State<ChatIntroPage> {
   }
 
   void _sendMessage([String? initialMessage]) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     final message = initialMessage ?? _messageController.text;
 
     if (message.isNotEmpty) {
@@ -49,12 +50,8 @@ class ChatIntroPageState extends State<ChatIntroPage> {
         _focusNode.unfocus();
       });
 
-      // log("1. messages: ${messages.messagesByRoomAndUser}");
-
       await Provider.of<Messages>(context, listen: false)
-          .addMessage(message, 'user1', 'room1');
-
-      // log("2. messages: ${messages.messagesByRoomAndUser}");
+          .addMessage(message, prefs.getString('userId') ?? "", 'room1');
 
       setState(() {
         _isLoading = false;
@@ -75,6 +72,7 @@ class ChatIntroPageState extends State<ChatIntroPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: const MyAppBar(),
       drawer: const ChatDrawer(
           // onDrawerOpened: _unfocus, // Pass the unfocus method
@@ -84,7 +82,7 @@ class ChatIntroPageState extends State<ChatIntroPage> {
           FocusScope.of(context).unfocus();
         },
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(4),
           child: Stack(
             children: [
               ListView(
@@ -101,9 +99,9 @@ class ChatIntroPageState extends State<ChatIntroPage> {
                     onTap: (sampleText) =>
                         _navigateToChat(sampleText), // Pass the handler
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 12),
                   IntroBox(
-                    icon: const Icon(Icons.book),
+                    icon: const Icon(Icons.airplane_ticket),
                     title: "비자",
                     sampleText1:
                         "현재 비자가 ‘일반 취업 비자’인데, 일자리를 바꾸려면 어떻게 해야 하나요? 비자 변경 절차가 복잡한가요?",
@@ -111,9 +109,9 @@ class ChatIntroPageState extends State<ChatIntroPage> {
                     onTap: (sampleText) =>
                         _navigateToChat(sampleText), // Pass the handler
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 12),
                   IntroBox(
-                    icon: const Icon(Icons.book),
+                    icon: const Icon(Icons.home),
                     title: "생활 정보",
                     sampleText1:
                         "새로 이사했는데, 지역 주민센터에서 해야 할 일이 뭐가 있을까요? 주소 변경 같은 건 어떻게 하나요?",
@@ -121,11 +119,11 @@ class ChatIntroPageState extends State<ChatIntroPage> {
                     onTap: (sampleText) =>
                         _navigateToChat(sampleText), // Pass the handler
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 12),
                   const Column(
                     children: <Widget>[
                       Icon(
-                        Icons.book,
+                        Icons.help,
                         size: 28,
                       ),
                       SizedBox(height: 1),
@@ -150,7 +148,7 @@ class ChatIntroPageState extends State<ChatIntroPage> {
                 ],
               ),
               Positioned(
-                bottom: 0,
+                bottom: 30,
                 left: 0,
                 right: 0,
                 child: MessageInputField(

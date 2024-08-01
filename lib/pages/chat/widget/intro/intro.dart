@@ -38,12 +38,12 @@ class IntroBox extends StatelessWidget {
                 onTap: () => onTap(sampleText1), // Add onTap handler
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 16,
+                    vertical: 8,
                     horizontal: 24,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(32),
                   ),
                   child: Text(
                     sampleText1,
@@ -56,12 +56,12 @@ class IntroBox extends StatelessWidget {
                 onTap: () => onTap(sampleText2), // Add onTap handler
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 16,
+                    vertical: 8,
                     horizontal: 24,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(32),
                   ),
                   child: Text(
                     sampleText2,

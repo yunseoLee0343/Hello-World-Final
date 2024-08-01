@@ -37,9 +37,7 @@ class TTSPageState extends State<TTSPage> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('Loading Bar Example'),
-      ),
+      appBar: AppBar(),
       body: Center(
         child: Stack(
           children: [
