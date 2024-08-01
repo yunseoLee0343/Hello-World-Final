@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
@@ -24,30 +26,34 @@ class AuthService {
     return prefs.getString('userId');
   }
 
-  static Future<bool> authenticateUser(
-      String email, String name, String authNum) async {
+  static Future<bool> authenticateUser() async {
     // Replace with your actual authentication request
     final response = await http.post(
       Uri.parse('http://localhost:8082/user/passwordMailAuthCheck'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
-        'email': email,
-        'name': name,
-        'authNum': authNum,
-      }),
     );
 
     if (response.statusCode == 200) {
       final responseBody = jsonDecode(response.body);
-      if (responseBody['isSuccess']) {
-        await setLoggedIn(true);
-        if (responseBody['userId'] != null) {
-          await setUserId(responseBody['userId']);
+      // Parse the JSON string
+      final parsedJson = jsonDecode(responseBody);
+      final isSuccess = parsedJson['isSuccess'];
+      String? atkToken;
+
+      for (var tokenData in parsedJson['result']) {
+        if (tokenData['types'] == 'atk') {
+          atkToken = tokenData['token'];
+          break;
         }
-        return true;
       }
+
+      log('isSuccess: $isSuccess');
+      log('atk token: $atkToken');
+
+      final decoded = JwtDecoder.decode(atkToken ?? "");
+      setUserId(decoded['id']);
     }
     return false;
   }

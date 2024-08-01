@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hello_world_final/router/app_router.dart';
+import 'package:http/http.dart' as http;
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -10,6 +13,24 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  String name = "";
+  String userImg = "assets/images/chatbot.png";
+
+  _getImage(String userId) async {
+    final response = await http.post(
+      Uri.parse('http://localhost:8082/user/passwordMailAuthCheck'),
+      headers: <String, String>{
+        'accept': '*/*',
+        'user_id': userId,
+      },
+    );
+
+    final data = jsonDecode(response.body);
+    name = data['result']['name'];
+    userImg = data['result']['userImg'];
+    return {"name": name, "userImg": userImg};
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Icon(
-                    Icons.person_4_rounded,
+                    Icons.person,
                     size: 32,
                     color: Colors.white,
                   ),
@@ -43,7 +64,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   Text(
                     "MyPage",
-                    style: TextStyle(fontSize: 28, color: Colors.white),
+                    style: TextStyle(
+                        fontSize: 28,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -74,31 +98,27 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   Row(
                     children: [
-                      Image.asset('assets/images/chatbot.png',
-                          width: 24, height: 36),
+                      Image.asset(userImg, width: 24, height: 36),
                       const SizedBox(width: 12),
-                      const Text("User Name",
-                          style: TextStyle(
+                      Text(name,
+                          style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold)),
                     ],
                   ),
                   const SizedBox(height: 12),
                   const Divider(),
                   const SizedBox(height: 18),
-                  const Text("상담", style: TextStyle(fontSize: 18)),
+                  RowProfile(
+                      text: "최근 상담 신청자 목록",
+                      onTap: () => context.push('/recent_applicants')),
                   const SizedBox(height: 32),
                   RowProfile(
-                    text: "챗봇 상담 히스토리 요약 보기",
-                    onTap: () {
-                      context.push('/chatbot_history');
-                    },
-                  ),
-                  const SizedBox(height: 24),
+                      text: "상담 신청자 요약 보기",
+                      onTap: () => context.push('/applicant_summary')),
+                  const SizedBox(height: 32),
                   RowProfile(
-                    text: "상담 접수 내역",
-                    onTap: () {
-                      context.push('/chatbot_history');
-                    },
+                    text: "이전 상담 내역",
+                    onTap: () => context.push('/applicant_past_records'),
                   ),
                 ],
               ),

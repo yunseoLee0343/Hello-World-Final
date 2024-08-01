@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hello_world_final/auth/auth_service.dart';
-import 'package:hello_world_final/pages/main_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,56 +10,80 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _authNumController = TextEditingController();
-
-  Future<void> _login() async {
-    bool success = await AuthService.authenticateUser(
-      _emailController.text,
-      _nameController.text,
-      _authNumController.text,
-    );
-
-    if (success) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const MainPage()),
-      );
-    } else {
-      // Handle login failure (e.g., show a dialog or a snackbar)
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Login failed')),
-      );
-    }
+  Future<bool> _authenticate() async {
+    var result = await AuthService.authenticateUser();
+    return result;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: const Text(''),
+        backgroundColor: Colors.white,
       ),
+      backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
+            Image.asset('assets/images/hello_world_logo.png',
+                fit: BoxFit.cover),
+            const SizedBox(
+              height: 100,
             ),
-            TextField(
-              controller: _nameController,
-              decoration: const InputDecoration(labelText: 'Name'),
-            ),
-            TextField(
-              controller: _authNumController,
-              decoration: const InputDecoration(labelText: 'Auth Number'),
-              keyboardType: TextInputType.number,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _login,
-              child: const Text('Login'),
+            Container(
+              child: FutureBuilder<bool>(
+                future: _authenticate(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    // While the future is being resolved, show a loading indicator
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    // If there is an error, show an error message
+                    return const Center(
+                      child: Text('An error occurred. Please try again.'),
+                    );
+                  } else if (snapshot.hasData && snapshot.data == true) {
+                    // If the authentication is successful, navigate to the chat_intro screen
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      context.go('/chat_intro');
+                    });
+                    return Container(); // Return an empty container as the navigation will happen
+                  } else {
+                    // If authentication fails, show the button and a popup
+                    return TextButton(
+                      onPressed: () async {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('로그인 실패'),
+                            content: const Text('로그인에 실패하였습니다. 다시 시도해주세요.'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('확인'),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.ac_unit),
+                          SizedBox(width: 8),
+                          Text("Google으로 로그인"),
+                        ],
+                      ),
+                    );
+                  }
+                },
+              ),
             ),
           ],
         ),
