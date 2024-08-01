@@ -8,6 +8,16 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hello_world_final/api_models/map_api_model.dart';
 import 'package:http/http.dart' as http;
 
+class CenterDetails {
+  final String centerID;
+  final String centerName;
+
+  CenterDetails({
+    required this.centerID,
+    required this.centerName,
+  });
+}
+
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
 
@@ -26,6 +36,7 @@ class _MapPageState extends State<MapPage> {
   List<CenterMap> _getDummyCenterMapData() {
     return [
       CenterMap(
+        centerID: '1',
         name: "Central Park Center",
         status: "Open",
         closed: "No",
@@ -35,6 +46,7 @@ class _MapPageState extends State<MapPage> {
         longitude: -73.968285,
       ),
       CenterMap(
+        centerID: '2',
         name: "Brooklyn Center",
         status: "Closed",
         closed: "Yes",
@@ -44,6 +56,7 @@ class _MapPageState extends State<MapPage> {
         longitude: -73.944158,
       ),
       CenterMap(
+        centerID: '3',
         name: "Queens Center",
         status: "Open",
         closed: "No",
@@ -204,7 +217,14 @@ class _MapPageState extends State<MapPage> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    context.push('/reservation');
+                                    context.push(
+                                      '/reservation',
+                                      extra: CenterDetails(
+                                          centerID: searchedCenterInfo
+                                              .centerMapList[index].centerID,
+                                          centerName: searchedCenterInfo
+                                              .centerMapList[index].name),
+                                    );
                                   },
                                   child: Row(
                                     children: [

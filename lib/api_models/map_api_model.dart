@@ -1,4 +1,5 @@
 class CenterMap {
+  final String centerID;
   final String name;
   final String status;
   final String closed;
@@ -8,6 +9,7 @@ class CenterMap {
   final double longitude;
 
   CenterMap({
+    required this.centerID,
     required this.name,
     required this.status,
     required this.closed,
@@ -19,6 +21,7 @@ class CenterMap {
 
   factory CenterMap.fromJson(Map<String, dynamic> json) {
     return CenterMap(
+      centerID: json['cetnerId'] as String,
       name: json['name'] as String,
       status: json['status'] as String,
       closed: json['closed'] as String,
@@ -31,6 +34,7 @@ class CenterMap {
 
   Map<String, dynamic> toJson() {
     return {
+      'cetnerId': centerID,
       'name': name,
       'status': status,
       'closed': closed,

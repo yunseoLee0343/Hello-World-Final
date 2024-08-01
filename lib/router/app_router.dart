@@ -63,7 +63,13 @@ final GoRouter appRouter = GoRouter(
     ),
     GoRoute(
       path: '/reservation',
-      builder: (context, state) => const ReservationPage(),
+      builder: (BuildContext context, GoRouterState state) {
+        final CenterDetails centerDetails = state.extra as CenterDetails;
+        return ReservationPage(
+          centerID: centerDetails.centerID,
+          centerName: centerDetails.centerName,
+        );
+      },
     ),
   ],
 );
